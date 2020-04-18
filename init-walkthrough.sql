@@ -1,5 +1,4 @@
 -- Docker startup : docker run --name mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306 -p 33060:33060 -d mysql
--- INFORMATION SOURCE AVAILABLE AT https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql
 -- Se connecter: mysql --host=localhost --user=root --password=my-secret-pw --protocol=tcp
 
 -- CREATE A USER. NEVER USE THE ROOT ADMIN !
@@ -37,7 +36,7 @@ CREATE TABLE CLIENT(
 CREATE TABLE PRODUIT(
     ID INT PRIMARY KEY,
     NOM VARCHAR(1024) NOT NULL,
-    DESCRIPTION VARCHAR(5096) NOT NULL,
+    DESCRIPTION VARCHAR(5096),
     PRIX DOUBLE NOT NULL
 ) ENGINE=InnoDB;
 
@@ -58,8 +57,10 @@ ALTER TABLE PRODUIT DROP PRIMARY KEY; -- Ne Fonctionne pas car utilisé en clé 
 ALTER TABLE COMMANDE DROP FOREIGN KEY FK_PRODUIT; -- On supprime la clé étrangère de commande 
 ALTER TABLE PRODUIT DROP PRIMARY KEY; -- Maintenant on peut retirer la contrainte de clé primaire pour ajouter l'auto increment
 ALTER TABLE PRODUIT MODIFY ID INT PRIMARY KEY AUTO_INCREMENT;
+ALTER TABLE COMMANDE ADD FOREIGN KEY FK_PRODUIT(PRODUIT_ID) REFERENCES PRODUIT(ID)
 -- Maintenant, plus besoin de définir un ID [On peut aussi le faire pour le client]
 INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('Trotinette Rouge amélioré', 'C\'est une trotinette verte de grande qualité pour adulte', 210.12);
+
 -- InnoDB, insertion par transaction
 START TRANSACTION;
 INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('Vélo Btwin', 'C\'est un vélo d\'entrée de gamme', 200);
@@ -67,18 +68,21 @@ INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('OneWheel', 'C\'est une skate
 SELECT * FROM PRODUIT; -- Les produits sont visibles uniquement dans la transaction. Si on ouvre une autre session, ils ne seront pas visibles
 ROLLBACK; -- Aucun changement a été sauvegardé, les INSERT sont rollbackés.
 SELECT * FROM PRODUIT;
+
 START TRANSACTION;
 INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('Vélo Btwin', 'C\'est un vélo d\'entrée de gamme', 200);
-INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('OneWheel', '\'est une skateboard electrique avec une roue unique au centre', 1200.99);
+INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('OneWheel', 'C\'est une skateboard electrique avec une roue unique au centre', 1200.99);
 COMMIT; -- On sauvegarde pour tout le monde
 
-START TRANSACTION; -- CLIENT n'est pas InnoDB, la transaction n'est pas respectée
+SELECT * FROM CLIENT;
 INSERT INTO CLIENT(NOM, PRENOM, VILLE, CP, EMAIL) VALUES('TRUMP', 'DONALD', 'WASHINGTON', '99999', 'donald@trump.com');
-SELECT * FROM CLIENT;
-ROLLBACK;
-SELECT * FROM CLIENT;
 INSERT INTO CLIENT(NOM, PRENOM, VILLE, CP, EMAIL) VALUES('MACRON', 'EMMANUEL', 'PARIS', '75000', 'emmanuel@macron.fr');
 INSERT INTO CLIENT(NOM, PRENOM, VILLE, CP, EMAIL) VALUES('MACRON', 'BRIGITTE', 'PARIS', '75000', 'brigitte@macron.fr');
 INSERT INTO CLIENT(NOM, PRENOM, VILLE, CP, EMAIL) VALUES('MERKEL', 'ANGELA', 'BERLIN', '15456', 'angela@merkel.de');
 INSERT INTO CLIENT(NOM, PRENOM, VILLE, CP, EMAIL) VALUES('JOHNSON', 'BORIS', 'LONDON', '45633', 'boris@johnson.co.uk');
 INSERT INTO CLIENT(NOM, PRENOM, VILLE, CP, EMAIL) VALUES('POUTINE', 'VLADIMIR', 'MOSCOU', '12345', 'invalid $ email @gmail.com');
+
+START TRANSACTION; -- CLIENT n'est pas InnoDB
+INSERT INTO CLIENT(NOM, PRENOM, VILLE, CP, EMAIL) VALUES('TRUMP', 'DONALD', 'WASHINGTON', '99999', 'donald@trump.com');
+SELECT * FROM CLIENT;
+ROLLBACK;
