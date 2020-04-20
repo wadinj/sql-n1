@@ -6,7 +6,7 @@
 
 TwitterSchool.com, c'est quoi :
 - TwitterSchool doit permettre à un utilisateur de se connecter et de créer son profil.
-	- La connexion doit être effectué par son email (unique) et un mot de passe
+	- La connexion doit être effectuée par son email (unique) et un mot de passe
 	- Le profil de l'utilisateur contient :
 		- Une photo
 		- Son nom
@@ -39,4 +39,4 @@ TwitterSchool.com, c'est quoi :
 Pour l'instant nous ne pouvons pas "Liker ou retweeter" un Retweet.
 
 1. Etablir le MCD de TwitterSchool.com
-2. A partir du MCD, établir le diagrammes des tables relationnelles de TwitterSchool.com
+2. A partir du MCD, établir le diagramme des tables relationnelles de TwitterSchool.com
