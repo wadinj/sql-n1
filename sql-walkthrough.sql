@@ -3,7 +3,7 @@
 
 -- Lister uniquement le nom et prénom des clients :
 SELECT NOM, PRENOM FROM CLIENT;
--- Lister l’ensemble est champ et rappeler le PRENOM une seconde fois:
+-- Lister l’ensemble des champs et rappeler le PRENOM une seconde fois:
 SELECT *, PRENOM FROM CLIENT;
 -- Lister l’ensemble des clients en éliminant les doublons sur le nom grace à DISTINCT:
 SELECT DISTINCT(NOM), PRENOM FROM CLIENT;
@@ -19,7 +19,7 @@ SELECT * FROM PRODUIT WHERE PRIX >= 50 AND PRIX <= 500;
 	SELECT * FROM PRODUIT WHERE PRIX >= 50 AND PRIX <= 500;
 	-- Peut aussi être écrit grâce à un BETWEEN :
 	SELECT * FROM PRODUIT WHERE PRIX BETWEEN 50 AND 500;
-	-- Le BETWEEN est donc inclusive.
+	-- Le BETWEEN est donc inclusif.
 
 -- L’opérateur LIKE permet d’effectuer des recherches approximatives dans une chaîne de caractères : 
 --	% pour remplacer 0 à N lettres
@@ -36,20 +36,20 @@ SELECT * FROM CLIENT WHERE EMAIL NOT REGEXP '^[a-zA-Z0-9][+a-zA-Z0-9._-]*@[a-zA-
 
 -- Vous avez probablement remarqué au dessus, l’introduction de l’opérateur “NOT” permettant d’ajouter une négation à un FILTRE (NOT BETWEEN, NOT IN, NOT LIKE, NOT…)
 
--- L’opérateur “IN” permet de recherche si une propriété est dans un ensemble : 
+-- L’opérateur “IN” permet de rechercher si une propriété est dans un ensemble : 
 SELECT * FROM CLIENT WHERE NOM IN ('TRUMP', 'UNKNOWN', 'MACRON');
 
 -- Les opérateurs >, <, >=, <=, <>, BETWEEN, IN, DISTINCT fonctionnent sur des chaines de caractères, des dates, des entiers, des doubles...
 -- Ajoutons une commande avec une date pour vérifier ce point
 
 -- Ici, pas besoin de spécifier les champs car nous les remplissons tous
--- Donald Trump commande 2 trotinettes rouge
+-- Donald Trump commande 2 trotinettes rouges
 INSERT INTO COMMANDE VALUES(1, 1, NOW());
 -- On introduit la fonction NOW(). Elle renvoie un objet DATETIME correspondant au DATETIME actuel.
 -- Regarder ce qu'il y a dans commande pour voir le format de DATETIME.
 
 -- On INSERT avec une date antérieure
--- Une trotinette rouge amélioré pour Vladimir Poutine
+-- Une trotinette rouge améliorée pour Vladimir Poutine
 INSERT INTO COMMANDE VALUES(2, 6, '2020-04-01');
 
 -- Regarder le résultat, que remarquerez-vous ?
@@ -87,7 +87,7 @@ SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM DESC;
 -- Ascendant (implicite)
 SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM;
 
--- LIMIT & OFFSET : Limit permet de limiter le nombre de résultat retourner par la requête. Offset permet de mettre un décalage par rapport au début de la limite.
+-- LIMIT & OFFSET : Limit permet de limiter le nombre de résultats retournés par la requête. Offset permet de mettre un décalage par rapport au début de la limite.
 SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM LIMIT 2;
 SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM LIMIT 2 OFFSET 2;
 -- C'est particulièrement utile pour implémenter une pagination !
@@ -97,7 +97,7 @@ SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM LIMIT 2 OFFSET 2;
 SELECT COUNT(1) FROM CLIENT;
 -- COUNT est combinable avec DISTINCT
 SELECT COUNT(DISTINCT NOM) FROM CLIENT; -- 5 car il y a deux MACRON
--- Il existe d'autres agrégat, MIN, MAX, AVG, SUM :
+-- Il existe d'autres agrégats, MIN, MAX, AVG, SUM :
 SELECT SUM(PRIX) FROM PRODUIT;
 SELECT MIN(PRIX) FROM PRODUIT;
 SELECT MAX(PRIX) FROM PRODUIT;
@@ -115,13 +115,13 @@ SELECT COALESCE(DATE_COMMANDE, PRODUIT_ID) FROM COMMANDE;
 
 -- CONCAT : Concatène plusieurs chaines de caractères 
 SELECT CONCAT(NOM, ' ',  EMAIL, ' ', PRENOM) AS NOM_ET_PRENOM_ET_EMAIL FROM CLIENT ORDER BY NOM_ET_PRENOM_ET_EMAIL DESC;
--- Ici, nous avons renommer la colonne sous FONCTION afin de la passer dans un ORDER BY
+-- Ici, nous avons renommé la colonne sous FONCTION afin de la passer dans un ORDER BY
 
 -- Encore mieux, CONCAT_WS : Concatène plusieurs chaines de caractères avec un séparateur
 SELECT CONCAT_WS(' ', NOM, EMAIL, PRENOM) AS NOM_ET_PRENOM_ET_EMAIL FROM CLIENT ORDER BY NOM_ET_PRENOM_ET_EMAIL DESC;
 
 
--- SUBSTRING : SUBSTR(chaine, début, taille) - Découpe une chaine de caractère
+-- SUBSTRING : SUBSTR(chaine, début, taille) - Découpe une chaine de caractères
 SELECT SUBSTR(PRENOM, 1, 1) AS PREMIERE_LETTRE_PRENOM, NOM FROM CLIENT; 
 -- Vous remarquez qu'en SQL, l'index de départ est 1 ! Différent de la majorité des langages de programmation.
 
@@ -137,12 +137,12 @@ SELECT CL.NOM, CL.PRENOM, P.NOM, P.DESCRIPTION, P.PRIX FROM CLIENT AS CL, COMMAN
 
 -- Le clause JOIN
 -- SQL 2 a apporté une clause afin de permettre de joindre des tables plus facilement "JOIN"
--- C'est uniquement du sucre syntaxique permettant d'avoir des requêtes beaucoup plus parlante.
--- Les requête multi tables au dessus peuvent être écrite avec JOIN :
+-- C'est uniquement du sucre syntaxique permettant d'avoir des requêtes beaucoup plus parlantes.
+-- Les requêtes multi tables au dessus peuvent être écrites avec JOIN :
 SELECT * FROM CLIENT FULL JOIN PRODUIT;
 -- Ou
 SELECT * FROM CLIENT JOIN PRODUIT;
--- En rajoutons notre contraintes pour obtenir les commandes des clients :
+-- En rajoutant nos contraintes pour obtenir les commandes des clients :
 SELECT * FROM CLIENT CL JOIN COMMANDE CO ON (CL.ID = CO.CLIENT_ID);
 -- Ici, nous avons omis AS pour CLIENT CL, il est implicite.
 
@@ -159,16 +159,16 @@ SELECT CL.NOM, CL.PRENOM, P.NOM, P.DESCRIPTION, P.PRIX FROM COMMANDE CO RIGHT OU
 
 -- Maintenant, un peu d'exercice :
 
--- 1. Lister les ID_PRODUIT, ID_CLIENT des commandes avec une data strictement inférieur au 15 Avril 2020 trié par ordre décroissant
--- 2. Lister les ID_PRODUIT, ID_CLIENT des commandes effectué le 1 Avril 2020 dans l'après-midi (entre 14h et 18h inclusif)
+-- 1. Lister les ID_PRODUIT, ID_CLIENT des commandes avec une date strictement inférieure au 15 Avril 2020 triées par ordre décroissant
+-- 2. Lister les ID_PRODUIT, ID_CLIENT des commandes effectuées le 1 Avril 2020 dans l'après-midi (entre 14h et 18h inclusif)
 -- 3. Lister LE NOMBRE de produits avec un prix supérieur ou égal à 1000E 
 -- 4. Lister l'ensemble des produits contenant le mot "trotinette" avec un prix supérieur à 150E
 -- 5. Lister l'ensemble des produits contenant le mot "trotinette" avec un prix supérieur à 150E
--- 6. Lister le nombre de commande de trotinette (améliorée ou non) (nom du produit contenant 'trotinette')
+-- 6. Lister le nombre de commande de trotinettes (améliorées ou non) (nom du produit contenant 'trotinette')
 -- 7. Lister le montant total des commandes des clients de la famille "Macron"
 -- 8. Ajouter une table fournisseur(id, nom, ville, date_ajout) avec l'ID auto-increment et clé primaire. Le nom du fournisseur doit être UNIQUE. 
 --    Nom et ville ont une longueur de 512 char. date_ajout est une datetime
--- 9. Ajouter une colonne FOURNISSEUR_ID a la table PRODUIT avec une contrainte d'intégrité vers l'ID de la table fournisseur
+-- 9. Ajouter une colonne FOURNISSEUR_ID à la table PRODUIT avec une contrainte d'intégrité vers l'ID de la table fournisseur
 --	  Avec une suppression en CASCADE 
 -- 10 Ajouter les fournisseurs 
 -- Nom=Air Liquide, Ville=Paris, date d'ajout "maintenant"
@@ -179,15 +179,15 @@ SELECT CL.NOM, CL.PRENOM, P.NOM, P.DESCRIPTION, P.PRIX FROM COMMANDE CO RIGHT OU
 -- 	   Un nouveau produit 'Oxygène' pour Air Liquide (prix 154.14, description NULL)
 -- Sans aucun identifiant en dur (FOURNISSEUR_ID = 1)
 -- 12. Lister les produits jamais commandés
--- 13. Lister le prix moyen des produits Decathlons
--- 14. Lister les noms (Sans doublon) qui ont commandés des produits Decathlon
--- 15. Afficher les initiales des clients table(Initiale nom, Initiale prénom, nom prenom séparé par un espace)
+-- 13. Lister le prix moyen des produits Decathlon
+-- 14. Lister les noms (Sans doublon) qui ont commandé des produits Decathlon
+-- 15. Afficher les initiales des clients: table(Initiale nom, Initiale prénom, nom prenom séparées par un espace)
 -- 16. Afficher le premier produit de Decathlon dans l'ordre alphabétique (i.e Trotinette)
 
 -- La Clause GROUP BY
 -- Elle permet d'effectuer des opérations sur un groupe de données ayant une caractéristique commune (le type)
 -- L'ensemble des colonnes selectionnées dans un SELECT ou un ORDER BY doit être obligatoirement dans la clause GROUP BY si celle-ci est présente
--- Le nombre de commande par produit
+-- Le nombre de commandes par produit
 SELECT P.NOM, COUNT(*) NOMBRE_DE_COMMANDE 
 FROM CLIENT CL INNER JOIN COMMANDE CO ON (CL.ID = CO.CLIENT_ID) INNER JOIN PRODUIT P ON (CO.PRODUIT_ID = P.ID) GROUP BY P.NOM;
 -- On peut aussi faire des regroupements via plusieurs colonnes
@@ -201,8 +201,8 @@ SELECT P.NOM, COUNT(*) NOMBRE_DE_COMMANDE FROM CLIENT CL INNER JOIN COMMANDE CO 
 GROUP BY P.NOM HAVING NOMBRE_DE_COMMANDE = 2
 
 -- 17. Afficher le nombre de produits par le nom de fournisseur
--- 18. Afficher le nom du fournisseur ayant vendu le plus de produit (Tips: La clause ALL permet de vérifier qu'une condition est correcte pour l'ensemble des éléments sous-jacent, ex:
--- 19. Afficher le montant total de commande par JOUR (deux colonnes : Le jour YYYY-MM-DD, le montant total) [Sans la valeur date NULL]
+-- 18. Afficher le nom du fournisseur ayant vendu le plus de produit (Tips: La clause ALL permet de vérifier qu'une condition est correcte pour l'ensemble des éléments sous-jacents, ex:
+-- 19. Afficher le montant total de commandes par JOUR (deux colonnes : Le jour YYYY-MM-DD, le montant total) [Sans la valeur date NULL]
 -- 20. Afficher l'ensemble des clients (nom + prénom) (même ceux qui n'ont rien commandé) avec le montant total dépensé par client (ex: MACRON->182E, TRUMP->0)
 	-- Le prix ne doit jamais afficher NULL, mais 0 en cas de NULL
 

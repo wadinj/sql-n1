@@ -1,18 +1,18 @@
 -- Docker startup : docker run --name mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306 -p 33060:33060 -d mysql
 -- Se connecter: mysql --host=localhost --user=root --password=my-secret-pw --protocol=tcp
 
--- CREATE A USER. NEVER USE THE ROOT ADMIN !
+-- Créé un utilisateur. Jamais utiliser le ROOT.
 CREATE USER 'wadinj' IDENTIFIED BY 'P@ssword123!';
 -- On peut ajouter une contrainte sur l'origine de connexion: CREATE USER 'wadinj'@'172.17.0.1' IDENTIFIED BY 'P@ssword123!'; 
 
--- On créé la base produit avec le root
+-- On crée la base produit avec le root
 CREATE DATABASE PRODUIT_DATABASE;
 
--- On ajoute les privileges sur la base PRODUIT
+-- On ajoute les privilèges sur la base PRODUIT
 GRANT ALL PRIVILEGES ON PRODUIT_DATABASE.* TO 'wadinj';
 FLUSH PRIVILEGES;
 
--- CHANGE ROOT DEFAULT NAME
+-- Changer le nom par défaut du ROOT
 use mysql;
 update user set user='myadmin' where user='root';
 flush privileges;
@@ -51,7 +51,7 @@ CREATE TABLE COMMANDE(
 );
 
 INSERT INTO PRODUIT VALUES(1, 'Trotinette Rouge', 'C\'est une trotinette rouge pour adulte', 120.12);
--- On aimerait ne pas avoir a stipulé l'ID, non ? Essayons
+-- On aimerait ne pas avoir à stipuler l'ID, non ? Essayons
 -- ALTER commande permet de modifier une table qui existe
 ALTER TABLE PRODUIT DROP PRIMARY KEY; -- Ne Fonctionne pas car utilisé en clé secondaire dans commande 
 ALTER TABLE COMMANDE DROP FOREIGN KEY FK_PRODUIT; -- On supprime la clé étrangère de commande 
@@ -59,19 +59,19 @@ ALTER TABLE PRODUIT DROP PRIMARY KEY; -- Maintenant on peut retirer la contraint
 ALTER TABLE PRODUIT MODIFY ID INT PRIMARY KEY AUTO_INCREMENT;
 ALTER TABLE COMMANDE ADD FOREIGN KEY FK_PRODUIT(PRODUIT_ID) REFERENCES PRODUIT(ID)
 -- Maintenant, plus besoin de définir un ID [On peut aussi le faire pour le client]
-INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('Trotinette Rouge amélioré', 'C\'est une trotinette verte de grande qualité pour adulte', 210.12);
+INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('Trotinette Rouge améliorée', 'C\'est une trotinette verte de grande qualité pour adulte', 210.12);
 
 -- InnoDB, insertion par transaction
 START TRANSACTION;
 INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('Vélo Btwin', 'C\'est un vélo d\'entrée de gamme', 200);
-INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('OneWheel', 'C\'est une skateboard electrique avec une roue unique au centre', 1200.99);
+INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('OneWheel', 'C\'est un skateboard electrique avec une roue unique au centre', 1200.99);
 SELECT * FROM PRODUIT; -- Les produits sont visibles uniquement dans la transaction. Si on ouvre une autre session, ils ne seront pas visibles
 ROLLBACK; -- Aucun changement a été sauvegardé, les INSERT sont rollbackés.
 SELECT * FROM PRODUIT;
 
 START TRANSACTION;
 INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('Vélo Btwin', 'C\'est un vélo d\'entrée de gamme', 200);
-INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('OneWheel', 'C\'est une skateboard electrique avec une roue unique au centre', 1200.99);
+INSERT INTO PRODUIT(NOM, DESCRIPTION, PRIX) VALUES('OneWheel', 'C\'est un skateboard electrique avec une roue unique au centre', 1200.99);
 COMMIT; -- On sauvegarde pour tout le monde
 
 SELECT * FROM CLIENT;
