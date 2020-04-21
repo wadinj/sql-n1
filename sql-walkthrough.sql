@@ -9,6 +9,9 @@ SELECT *, PRENOM FROM CLIENT;
 SELECT DISTINCT(NOM), PRENOM FROM CLIENT;
 -- Lister l’ensemble des clients en éliminant les doublons nom/prénom:
 SELECT DISTINCT NOM, PRENOM FROM CLIENT;
+-- Ajouter un fournisseur avec la même VILLE et un autre avec une ville différente et effectuer afficher la liste des villes sans doublons
+
+
 -- Lister les produits avec un prix supérieur à 500 avec la clause WHERE :
 SELECT * FROM PRODUIT WHERE PRIX > 500;
 -- Lister les produits avec un prix inférieur ou égal à 500 avec la clause WHERE :
@@ -20,6 +23,10 @@ SELECT * FROM PRODUIT WHERE PRIX >= 50 AND PRIX <= 500;
 	-- Peut aussi être écrit grâce à un BETWEEN :
 	SELECT * FROM PRODUIT WHERE PRIX BETWEEN 50 AND 500;
 	-- Le BETWEEN est donc inclusif.
+-- Ajouter deux produits avec un prix de 5000 Euros
+-- Afficher les produits avec un prix égal à 5000 Euros
+-- Afficher la liste des prix de l'ensemble des produits sans aucun doublons 
+
 
 -- L’opérateur LIKE permet d’effectuer des recherches approximatives dans une chaîne de caractères : 
 --	% pour remplacer 0 à N lettres
@@ -34,10 +41,18 @@ SELECT * FROM CLIENT WHERE NOM REGEXP '^M';
 -- C’est très utile pour par exemple, découvrir si un email est invalide:
 SELECT * FROM CLIENT WHERE EMAIL NOT REGEXP '^[a-zA-Z0-9][+a-zA-Z0-9._-]*@[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]*\\.[a-zA-Z]{2,4}$';
 
+
+-- Afficher les produits avec un nom qui commençent par par tro
+-- Afficher les produits avec un nom qui terminent par Btwin
+-- Afficher les produits avec un nom qui contiennent le mot "trotinette"
+-- Afficher les produits sans la lettre m (avec une REGEX)
 -- Vous avez probablement remarqué au dessus, l’introduction de l’opérateur “NOT” permettant d’ajouter une négation à un FILTRE (NOT BETWEEN, NOT IN, NOT LIKE, NOT…)
+-- Réécrire la requête pour retrouver les produits sans la lettre m avec l'opérateur LIKE
 
 -- L’opérateur “IN” permet de rechercher si une propriété est dans un ensemble : 
 SELECT * FROM CLIENT WHERE NOM IN ('TRUMP', 'UNKNOWN', 'MACRON');
+
+-- Afficher la liste des produits sans les trotinettes
 
 -- Les opérateurs >, <, >=, <=, <>, BETWEEN, IN, DISTINCT fonctionnent sur des chaines de caractères, des dates, des entiers, des doubles...
 -- Ajoutons une commande avec une date pour vérifier ce point
@@ -81,16 +96,25 @@ SELECT * FROM COMMANDE ORDER BY DATE_COMMANDE ASC;
 -- Descendant
 SELECT * FROM COMMANDE ORDER BY DATE_COMMANDE DESC;
 
+
+
 -- ORDER BY fonctionne sur les dates, les chaines de caractères, les entiers, les doubles...
 -- Descendant
 SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM DESC;
 -- Ascendant (implicite)
 SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM;
 
+-- Afficher les produits triés par prix décroissant
+-- Afficher les produits triés par nom croissant
+-- Afficher les clients par nom puis prénom
+
 -- LIMIT & OFFSET : Limit permet de limiter le nombre de résultats retournés par la requête. Offset permet de mettre un décalage par rapport au début de la limite.
 SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM LIMIT 2;
 SELECT PRENOM, NOM FROM CLIENT ORDER BY PRENOM LIMIT 2 OFFSET 2;
 -- C'est particulièrement utile pour implémenter une pagination !
+-- Afficher une page de 2 produits (basé sur l'ID) avec un prix inférieur à 500E
+-- Afficher le produit le plus cher
+-- Afficher le produit le moins cher
 
 -- FONCTION D'AGREGAT
 -- Nous pouvons compter les éléments d'une table grâce à COUNT
@@ -102,6 +126,10 @@ SELECT SUM(PRIX) FROM PRODUIT;
 SELECT MIN(PRIX) FROM PRODUIT;
 SELECT MAX(PRIX) FROM PRODUIT;
 SELECT AVG(PRIX) FROM PRODUIT;
+
+-- Afficher le nombre de fournisseur ajouté aujourd'hui
+-- Afficher le prix moyen des trotinettes
+-- Afficher le prix minimum des trotinettes
 
 -- Des fonctions avancées 
 -- La plupart disponible ici: https://www.w3schools.com/sql/sql_ref_mysql.asp
@@ -125,6 +153,16 @@ SELECT CONCAT_WS(' ', NOM, EMAIL, PRENOM) AS NOM_ET_PRENOM_ET_EMAIL FROM CLIENT 
 SELECT SUBSTR(PRENOM, 1, 1) AS PREMIERE_LETTRE_PRENOM, NOM FROM CLIENT; 
 -- Vous remarquez qu'en SQL, l'index de départ est 1 ! Différent de la majorité des langages de programmation.
 
+
+-- Afficher la taille moyenne des emails de nos clients
+-- Afficher l'ensemble des champs de nos produits séparés par un ;
+-- Afficher la taille maximal d'une description d'un produit
+-- Afficher la taille des noms de nos clients commençant par M sans doublons
+-- Afficher la liste des dates des commandes, si elle est NULL alors la date actuelle
+-- Afficher les commandes effectués avant le 2020-04-21
+-- Afficher les commandes effectués après le 2020-04-01 à midi
+
+
 -- Les requêtes multi tables
 -- Il est possible de requêter sur plusieurs tables en même temps
 SELECT * FROM CLIENT, PRODUIT; -- C'est ce qu'on appelle un "FULL-JOIN". Le résultat est l'ensemble des combinaisons des enregistrements des tables selectionnées. 
@@ -134,6 +172,17 @@ SELECT * FROM CLIENT, COMMANDE WHERE CLIENT.ID = COMMANDE.CLIENT_ID;
 SELECT * FROM CLIENT, COMMANDE, PRODUIT WHERE COMMANDE.PRODUIT_ID = PRODUIT.ID AND COMMANDE.CLIENT_ID = CLIENT.ID; 
 -- Un peu de clarté :
 SELECT CL.NOM, CL.PRENOM, P.NOM, P.DESCRIPTION, P.PRIX FROM CLIENT AS CL, COMMANDE AS CO, PRODUIT AS P WHERE CO.PRODUIT_ID = P.ID AND CO.CLIENT_ID = CL.ID; 
+
+-- Afficher le nom, prénom des clients ayant effectué une commande de plus de 200E
+-- Afficher le nom, prénom des clients ayant effectué une commande d'un vélo BTWIN
+-- Afficher le nom, prénom des clients ayant effectué une commande d'une trotinette 
+-- Afficher l'adresse email des clients ayant effectué une commande de plus de 500E
+-- Afficher les commandes des clients ayant un nom ou un prénom contenant un T
+-- Afficher le nombre de commande total
+-- Afficher le nombre de commande des clients MACRON
+-- Ajouter une commande pour Vladimir Poutine & afficher les commandes des clients avec un email invalide
+-- Afficher les clients ayant effectué une commande après le 2020-04-01 à midi
+-- Afficher le nom et prénom (séparé par un espace) des clients ayant commandé soit une Trotinette (améliorée ou non) ou un vélo Btwin
 
 -- Le clause JOIN
 -- SQL 2 a apporté une clause afin de permettre de joindre des tables plus facilement "JOIN"
