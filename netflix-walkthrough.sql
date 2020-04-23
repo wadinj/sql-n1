@@ -19,4 +19,4 @@
 -- 16. Afficher la liste des films (titre uniquement) NON visualisé par le compte de Bettignies Louise (identifié par son email lucie@yahoo.com) sans doublons
 -- (Vous pouvez réutiliser la requete 12. avec une imbrication...)
 -- 17. Extra bonus, si vous trouvez, vous avez 20
-        -- Afficher l'email du compte utilisateur visionné LE PLUS DE films sur la plateforme
+        -- Afficher l'email du compte utilisateur visionné LE PLUS DE films sur la plateforme (Utilisez la clause GROUP BY)
