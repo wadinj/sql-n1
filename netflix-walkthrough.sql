@@ -1,22 +1,24 @@
 -- 1. Selectionner le titre des films commençant par "L"
--- 2. Selectionner le titre des films sorti après 2015 trié du plus récent au plus ancien
--- 3. Selectionner le film américain (origine US) ayant le plus grand nombre d'entrée au box office
+-- 2. Selectionner le titre des films publiés après 2015 trié du plus récent au plus ancien
+-- 3. Selectionner les films américains (origine US) ayant le plus grand nombre d'entrée au box office
 -- 4. Selectionner la moyenne du nombre d'entrée des films américain (origin US) et comparer la à la moyenne du nombre d'entrée des films français (origine FR), 
 -- que remarquez-vous ?
 -- 5. Afficher la longueur des titres (un nombre), avec le nom du titre trié par longueur décroissante
 -- 6. Selectionner le nombre de surnom "maman" dans la table profil
 -- 7. Selectionner les utilisateurs ayant un email "gmail" né après 1990
 -- 8. Selectionner les films américains (origine US) avec + de 10M d'entrée mise en ligne après 2000
--- 9. Selectionner les films français ou indien sorti après 2015 trié par date de sortie décroissante
+-- 9. Selectionner les films Français ou Indien sorti après 2015 trié par date de sortie décroissante
 -- 10. Selectionner les initiales des utilisateurs dans une seul colonne (ex: Bettignies Louise => BL)
+
     -- On ajoute un peu de complexité
 -- 11. Afficher le nombre de fois que Ratatouille a été visualisé
 -- 12. Afficher la liste des films (titre uniquement) visualisés par le compte de Bettignies Louise (identifié par son email lucie@yahoo.com) sans doublons
 -- 13. Afficher l'email de l'utilisateur, le surnom du profil des profils ayant visualisé un film après le 6 Juin 2017 à midi
 -- 14. Afficher le nom des profils, le titre du film visualisé triée par date de visionnage.
 -- 15. Afficher les titre des films de type Romance visionnés par le compte de Louise (identifié par l'email blouise@gmail.com) sans doublons
+
     -- Encore un peu plus loin
 -- 16. Afficher la liste des films (titre uniquement) NON visualisé par le compte de Bettignies Louise (identifié par son email lucie@yahoo.com) sans doublons
 -- (Vous pouvez réutiliser la requete 12. avec une imbrication...)
--- 17. Extra bonus, si vous trouvez, vous avez 20
-        -- Afficher l'email du compte utilisateur visionné LE PLUS DE films sur la plateforme (Utilisez la clause GROUP BY)
+-- 17. Extra bonus
+        -- Afficher l'email du compte utilisateur ayant visionné LE PLUS DE films sur la plateforme (Utiliser la clause GROUP BY)
